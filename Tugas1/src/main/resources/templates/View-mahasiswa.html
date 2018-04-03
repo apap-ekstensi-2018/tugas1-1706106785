@@ -1,0 +1,54 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Data Mahasiswa</title>
+<link   rel = "stylesheet"   href = "/css/bootstrap.min.css"   />
+</head>
+<body>
+	<div th:replace="fragments/fragment :: header"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+			<br/>
+				<h3>Lihat Data Mahasiswa</h3>
+			<br/>
+			</div>
+			<div class="col-5"><p><strong>NPM</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.npm}"></p></div>
+			<div class="col-5"><p><strong>Nama</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.nama}"></p></div>
+			<div class="col-5"><p><strong>Tempat/Tanggal Lahir</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.tempat_lahir} + ' ' + ${mahasiswa.tanggal_lahir}"></p></div>
+			<div class="col-5"><p><strong>Program Studi</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.nama_prodi}"></p></div>
+			<div class="col-5"><p><strong>Fakultas</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.nama_fakultas}"></p></div>
+			<div class="col-5"><p><strong>Universitas</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.nama_univ}"></p></div>
+			<div class="col-5"><p><strong>Jenis Kelamin</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.jenis_kelamin}"></p></div>
+			<div class="col-5"><p><strong>Agama</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.agama}"></p></div>
+			<div class="col-5"><p><strong>Golongan Darah</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.golongan_darah}"></p></div>
+			<div class="col-5"><p><strong>Tahun Masuk</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.tahun_masuk}"></p></div>
+			<div class="col-5"><p><strong>Jalur Masuk</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.jalur_masuk}"></p></div>
+			<div class="col-5"><p><strong>Status</strong></p></div>
+			<div class="col-7"><p th:text="${mahasiswa.status}"></p></div>
+			<div class="col-5"></div>
+			<div class="col-7">
+				<div class="row">
+					<div class="col-3">
+						<p>1</p>
+					</div>
+					<div class="col-3">
+						<p>2</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

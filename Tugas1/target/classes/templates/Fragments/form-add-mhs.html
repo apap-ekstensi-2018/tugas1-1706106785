@@ -1,0 +1,88 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+	<div th:fragment="formMahasiswa" class="container">
+		<form th:action="@{${linkSubmit}}" method="post" th:object="${mahasiswa}">
+			<div class="form-group col-7">
+				<div class="alert alert-success" role="alert" th:hidden="${hideAlert}">
+					<h4 class="alert-heading">Sukses!</h4>
+  					<p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+  					<hr/>
+  					<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+				</div>
+				<input th:field="*{id}" hidden="true"/>
+				<input th:field="*{npm}" hidden="true"/>
+				<label>Nama Lengkap</label> <input
+					type="text" class="form-control" name="nama" th:field="*{nama}"/> <br />
+				<label>Tempat Lahir</label> <input type="text"
+					class="form-control" name="tempatLahir" th:field="*{tempatLahir}" /> <br />
+				<label>Tanggal Lahir</label> <input
+					type="text" class="form-control" name="tanggalLahir" th:field="*{tanggalLahir}" /> <br />
+				<label>Jenis Kelamin</label> 
+					<div class="input-group" id="jenisKelamin">
+						<!-- <select class="custom-select" th:field="*{jenisKelamin}">
+							<option selected="selected" th:value="1" th:name="lakiLaki">Laki-laki</option>
+							<option th:value="2" th:name="perempuan">Perempuan</option>
+						</select> -->
+						<select class="custom-select" th:field="*{jenisKelamin}">
+							<option th:each="data, i : ${options_jk}"  th:attr="selected=(*{jenisKelamin} == ${data})" th:value="${i.index}" th:text="${data}"></option>
+						</select>
+					</div>
+					<br/>
+				<label>Agama</label>
+					<div class="input-group" id="agama">
+						<!-- <select class="custom-select" th:field="*{agama}">
+							<option selected="selected" th:value="${'islam'}">Islam</option>
+							<option th:value="2">Budha</option>
+							<option th:value="3">Hindu</option>
+							<option th:value="4">Katolik</option>
+							<option th:value="5">Konghucu</option>
+							<option th:value="6">Protestan</option>
+						</select> -->
+						<select class="custom-select" th:field="*{agama}">
+							<option th:each="data : ${options_agama}" th:attr="selected=(*{agama} == ${data})" th:value="${data}" th:text="${data}"></option>
+						</select>
+					</div>
+					<br />
+				<label>Golongan Darah</label>
+					<div class="input-group" id="golonganDarah">
+						<!-- <select class="custom-select" th:field="*{golonganDarah}">
+							<option selected="selected" th:value="1">A+</option>
+							<option th:value="2">A-</option>
+							<option th:value="3">AB+</option>
+							<option th:value="4">AB-</option>
+							<option th:value="5">B+</option>
+							<option th:value="6">B-</option>
+							<option th:value="7">O+</option>
+							<option th:value="8">O</option>
+						</select> -->
+						<select class="custom-select" th:field="*{golonganDarah}">
+							<option th:each="data : ${options_goldar}"  th:attr="selected=(*{golonganDarah} == ${data})" th:value="${data}" th:text="${data}"></option>
+						</select>
+					</div>
+					<br />
+				<label>Tahun Masuk</label> <input
+					type="text" class="form-control" name="tahunMasuk" placeholder="" th:field="*{tahunMasuk}" /> <br />
+				<label>Jalur Masuk</label>
+					<div class="input-group" id="jalurMasuk">
+						<!-- <select class="custom-select" th:field="*{jalurMasuk}">
+							<option selected="selected" th:value="1">Ujian Tulis Bersama/SBMPTN</option>
+							<option th:value="2">Ujian Tulis Mandiri</option>
+							<option th:value="3">Undangan Olimpiade</option>
+							<option th:value="4">Undangan Paralel/PPKB</option>
+							<option th:value="5">Undangan Reguler/SNMPTN</option>
+						</select> -->
+						<select class="custom-select" th:field="*{jalurMasuk}">
+							<option th:each="data : ${options_jalur_masuk}"  th:attr="selected=(*{jalurMasuk} == ${data})" th:value="${data}" th:text="${data}"></option>
+						</select>
+					</div>
+					<br />
+				<label>Id Program Studi</label> <input type="text"
+					class="form-control" name="npm" placeholder="" th:field="*{idProdi}"/> <br />	
+				<button class="btn btn-primary" type="submit" role="button">Simpan</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
