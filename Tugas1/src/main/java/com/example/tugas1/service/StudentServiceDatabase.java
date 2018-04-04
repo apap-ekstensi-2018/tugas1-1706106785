@@ -77,6 +77,17 @@ public class StudentServiceDatabase implements StudentService {
 		// TODO Auto-generated method stub
 		return studentMapper.getLastNPM(id_prodi);
 	}
+	
+	@Override
+    public Integer getMHSByTahunMasuk(String tahun_masuk, String id_prodi)
+    {
+        return studentMapper.getMHSByTahunMasuk(tahun_masuk, id_prodi);
+    }
 
+	@Override
+    public Integer getMHSLulus(String tahun_masuk, String id_prodi)
+    {
+        return studentMapper.getMHSLulus(tahun_masuk, id_prodi);
+    }
    
 }

@@ -25,4 +25,8 @@ public interface StudentService {
     void updateStudent (StudentModel student);
     
     String getLastNPM(String id_prodi);
+    
+    Integer getMHSByTahunMasuk(String tahun_masuk, String id_prodi);
+    
+    Integer getMHSLulus(String tahun_masuk, String id_prodi);
 }

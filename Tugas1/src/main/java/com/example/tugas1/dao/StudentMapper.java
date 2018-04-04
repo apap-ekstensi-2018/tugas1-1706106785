@@ -28,7 +28,7 @@ public interface StudentMapper {
 	    @Delete("DELETE FROM mahasiswa WHERE npm = #{npm}")
 	    void deleteStudent(@Param("npm") String npm);
 	    
-	    @Update("UPDATE mahasiswa SET id = #{id},npm = #{npm},nama = #{nama},tempat_lahir =  #{tempat_lahir},tanggal_lahir = #{tanggal_lahir}, jenis_kelamin = #{jenis_kelamin},agama =  #{agama},golongan_darah =  #{golongan_darah},status =  #{status},tahun_masuk = #{tahun_masuk},jalur_masuk = #{jalur_masuk},id_prodi = #{id_prodi} WHERE npm = #{npm}")
+	    @Update("UPDATE mahasiswa SET npm = #{npm},nama = #{nama},tempat_lahir =  #{tempat_lahir},tanggal_lahir = #{tanggal_lahir}, jenis_kelamin = #{jenis_kelamin},agama =  #{agama},golongan_darah =  #{golongan_darah},status =  #{status},tahun_masuk = #{tahun_masuk},jalur_masuk = #{jalur_masuk},id_prodi = #{id_prodi} WHERE npm = #{npm}")
 	    void updateStudent(StudentModel student);
 	    
 	    @Select("select kode_prodi, nama_prodi, id_fakultas from program_studi where id = #{id}")
@@ -48,4 +48,10 @@ public interface StudentMapper {
 	    		"AND fakultas.id_univ = universitas.id " + 
 	    		"ORDER BY mahasiswa.npm DESC LIMIT 1")
 	    String getLastNPM(@Param("id_prodi") String id_prodi);
+	    
+	    @Select("select count(*) from mahasiswa where tahun_masuk=#{tahun_masuk} and id_prodi= #{id_prodi}")
+	    Integer getMHSByTahunMasuk(@Param("tahun_masuk") String tahun_masuk, @Param("id_prodi") String id_prodi);
+	    
+	    @Select("select count(*) from mahasiswa where tahun_masuk=#{tahun_masuk} and id_prodi= #{id_prodi} and status like '%Lulus%'")
+	    Integer getMHSLulus(@Param("tahun_masuk") String tahun_masuk, @Param("id_prodi") String id_prodi);
 }

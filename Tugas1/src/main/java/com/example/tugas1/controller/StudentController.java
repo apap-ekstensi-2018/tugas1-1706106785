@@ -17,6 +17,8 @@ import com.example.tugas1.model.StudentModel;
 import com.example.tugas1.model.UniversitasModel;
 import com.example.tugas1.service.StudentService;
 
+import ch.qos.logback.classic.Logger;
+
 @Controller
 public class StudentController {
 	@Autowired
@@ -27,6 +29,15 @@ public class StudentController {
     public String index ()
     {
         return "index";
+    }
+    
+    @RequestMapping("/mahasiswa/viewall")
+    public String view (Model model)
+    {
+        List<StudentModel> students = studentDAO.selectAllStudents ();
+        model.addAttribute ("students", students);
+
+        return "view-all";
     }
     
     @RequestMapping(value = "/mahasiswa", method = RequestMethod.GET)
@@ -44,7 +55,6 @@ public class StudentController {
         }
     	
     }
-
 
     @RequestMapping(value = "/mahasiswa/tambah", method = RequestMethod.GET)
     public String tambahMahasiswa(Model model)
@@ -118,79 +128,68 @@ public class StudentController {
         
     }
     
-    @RequestMapping("/student/view")
-    public String view (Model model,
-            @RequestParam(value = "npm", required = false) String npm)
-    {
-        StudentModel student = studentDAO.selectStudent (npm);
-
-        if (student != null) {
-            model.addAttribute ("student", student);
-            return "view";
-        } else {
-            model.addAttribute ("npm", npm);
-            return "not-found";
-        }
-    }
-
-
-    @RequestMapping("/student/view/{npm}")
-    public String viewPath (Model model,
-            @PathVariable(value = "npm") String npm)
-    {
-        StudentModel student = studentDAO.selectStudent (npm);
-
-        if (student != null) {
-            model.addAttribute ("student", student);
-            return "view";
-        } else {
-            model.addAttribute ("npm", npm);
-            return "not-found";
-        }
-    }
-
-
-    @RequestMapping("/student/viewall")
-    public String view (Model model)
-    {
-        List<StudentModel> students = studentDAO.selectAllStudents ();
-        model.addAttribute ("students", students);
-
-        return "viewall";
-    }
-
-
-    @RequestMapping("/student/delete/{npm}")
-    public String delete (Model model, @PathVariable(value = "npm") String npm)
-    {
+    @RequestMapping(value = "/mahasiswa/ubah/{npm}")
+	public String ubahMahasiswa(Model model, @PathVariable(value = "npm") String npm) {
     	StudentModel student = studentDAO.selectStudent(npm);
-    	if(student == null)
+    	if(student != null) {
+    		model.addAttribute ("student", student);
+			return "form-update";
+		}
+    	else
     	{
-    		model.addAttribute("npm",npm);
     		return "not-found";
     	}
-    	studentDAO.deleteStudent (npm);
-      
-        return "delete";
-    }
-
-    @RequestMapping("/student/update/{npm}")
-    public String update (Model model, @PathVariable(value = "npm") String npm)
-    {
-    	StudentModel student = studentDAO.selectStudent(npm);
-    	if(student == null)
-    	{
-    		model.addAttribute("npm",npm);
-    		return "not-found";
-    	}
-    	model.addAttribute ("student", student);      
-        return "form-update";   
+        
 	}
 
-	@RequestMapping(value = "/student/update/submit", method = RequestMethod.POST )
-	public String updateSubmit(@ModelAttribute StudentModel student)
+	@RequestMapping(value = "/mahasiswa/ubah/submit", method = RequestMethod.POST)
+	public String updateMahasiswaSubmit(@ModelAttribute StudentModel student, Model model)
 	{
-		studentDAO.updateStudent (student);
-	  
-	    return "success-update";   }
+		studentDAO.updateStudent(student);
+		return "success-update";
+	}
+	
+	@RequestMapping("/kelulusan")
+    public String kelulusan (Model model)
+    {
+		return"view-kelulusan";
+    }
+	
+	@RequestMapping("/kelulusan/submit")
+    public String viewKelulusan (Model model,
+    @RequestParam(value = "tahun_masuk", required=false) String tahun_masuk, @RequestParam(value = "id_prodi", required=false)String id_prodi )
+    {
+		
+        int total_mhs= studentDAO.getMHSByTahunMasuk(tahun_masuk, id_prodi);
+        
+        int mhs_lulus = studentDAO.getMHSLulus(tahun_masuk, id_prodi);
+        
+        System.out.println(mhs_lulus);
+        double persen_lulus = ((double) mhs_lulus / (double) total_mhs) * 100;
+             
+        String persentase = Double.toString(persen_lulus);
+             
+        ProgramStudiModel program_studi = studentDAO.selectProdi(id_prodi);
+        FakultasModel fakultas = studentDAO.selectFakultas(program_studi.getId_fakultas());
+        UniversitasModel universitas = studentDAO.selectUniv(fakultas.getId_univ());
+             
+         if(program_studi != null && fakultas != null && universitas != null)
+         {
+             model.addAttribute("total_mhs", total_mhs);
+             model.addAttribute("mhs_lulus", mhs_lulus);
+             model.addAttribute("presentase", persentase);
+             model.addAttribute("tahun_masuk", tahun_masuk);
+             model.addAttribute("program_studi", program_studi.getNama_prodi());
+             model.addAttribute("fakultas", fakultas.getNama_fakultas());
+             model.addAttribute("universitas", universitas.getNama_univ());
+
+             return "persentase_kelulusan";
+        }
+        else
+        {
+        	return "not-found";
+        }
+    }
+    
+   
 }

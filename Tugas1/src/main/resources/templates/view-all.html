@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>View All Students</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+	 	<link th:href="@{/main.css}" rel="stylesheet"/>
+    </head>
+    <body>
+     <div th:replace="fragments/fragment :: header"></div>
+        <h1 align="center">All Students</h1>
+        
+        <table id="example" class="display" style="width:100%"  border="2px">
+	        <thead align="center">
+	            <tr>
+	                <th><h3>No</h3></th>
+	                <th><h3>NPM</h3></th>
+	                <th><h3>Nama</h3></th>
+	                <th><h3>Tahun Masuk</h3></th>
+	                <th colspan="2"><h3>Action</h3></th>
+	                
+	            </tr>
+	        </thead>
+	        <tbody align="center">
+		        <tr th:each="student,iterationStatus: ${students}" th:class="${iterationStatus.odd} ? 'odd'">
+		        	<td><p th:text="${iterationStatus.count}">No. 1</p></td>
+		        	<td><p th:text="${student.npm}">Student NPM</p></td>
+		        	<td><p th:text="${student.nama}">Student Nama</p></td>
+		        	<td><p th:text="${student.tahun_masuk}">Student Tahun Masuk</p></td>
+		        	<td><a th:href="'/student/delete/' + ${student.npm}"> Delete Data</a><br/></td>
+		        	<td><a th:href="'/mahasiswa/ubah/' + ${student.npm}"> Update Data</a><br/></td>
+		        </tr>
+	        </tbody>
+	        
+	    </table>
+	    <div th:replace="fragments/fragment :: footer"></div>
+    </body>
+    <script th:src="@{/DataTables/datatables-1.10.16/js/jquery.dataTables.min.js}">
+	    $(document).ready(function() {
+	    $('#example').DataTable({
+    			stateSave: true
+    		});
+		} );
+	</script>
+</html>
